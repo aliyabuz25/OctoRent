@@ -1,0 +1,4 @@
+const listRef = (ref, onChange) => {
+  const data = ref.current;
+  return onChange(data);
+};

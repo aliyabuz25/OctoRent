@@ -10,19 +10,16 @@ const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }
   const loadItems = () => {
     const table = tableRef.current;
     if (!table) return Promise.resolve();
-    return api
-      .listItems()
-      .then((data) => table.setData(data))
-      .catch((error) => console.error(error));
+    return api.listItems().then((d) => table.setData(d)).catch((e) => console.error(e));
   };
 
   useEffect(() => {
     const table = new Tabulator(containerRef.current, {
       layout: "fitData",
       responsiveLayout: false,
-      placeholder: "Kayıt bulunamadı",
+      placeholder: "Məlumat yoxdur",
       pagination: true,
-      paginationSize: 12,
+      paginationSize: 15,
       paginationCounter: "rows",
       movableColumns: true,
       height: "100%",
@@ -31,20 +28,14 @@ const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }
       selectableRows: 1,
       columns,
     });
-
     tableRef.current = table;
     table.on("cellEdited", (cell) => onCellEdited(cell));
     table.on("rowContext", (event, row) => {
       event.preventDefault();
       onRowContext(event, row.getData());
     });
-
     loadItems();
-
-    return () => {
-      table.destroy();
-      tableRef.current = null;
-    };
+    return () => { table.destroy(); tableRef.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -52,22 +43,20 @@ const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }
     reload: loadItems,
     exportCsv: () => tableRef.current?.download("csv", "runstock.csv"),
     clearFilters: () => {
-      const table = tableRef.current;
-      if (!table) return;
-      table.clearHeaderFilter();
-      table.clearFilter(true);
+      const t = tableRef.current;
+      if (!t) return;
+      t.clearHeaderFilter();
+      t.clearFilter();
     },
     applySearch: (term) => {
-      const table = tableRef.current;
-      if (!table) return;
-      const query = term.trim().toLowerCase();
-      if (!query) {
-        table.clearFilter(true);
+      const t = tableRef.current;
+      if (!t) return;
+      const q = term.trim().toLowerCase();
+      if (!q) {
+        t.clearFilter();
         return;
       }
-      table.setFilter((row) =>
-        Object.values(row).some((value) => String(value).toLowerCase().includes(query))
-      );
+      t.setFilter((row) => Object.values(row).some((v) => String(v).toLowerCase().includes(q)));
     },
   }));
 
