@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../../lib/api.js";
 import ToastContainer from "../common/ToastContainer.jsx";
 import StockTable from "./StockTable.jsx";

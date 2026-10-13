@@ -37,9 +37,9 @@ export const columns = [
     field: "category",
     width: 110,
     headerFilter: "list",
-    headerFilterParams: { values: true, clearable: true },
+    headerFilterParams: { valuesLookup: true },
     editor: "autocomplete",
-    editorParams: { values: true, showListOnEmpty: true, freetext: true },
+    editorParams: { valuesLookup: true, showListOnEmpty: true, freetext: true },
   },
   { title: "Marka", field: "brand", width: 100, headerFilter: "input", editor: "input" },
   {
@@ -47,9 +47,9 @@ export const columns = [
     field: "unit",
     width: 72,
     headerFilter: "list",
-    headerFilterParams: { values: true, clearable: true },
+    headerFilterParams: { valuesLookup: true },
     editor: "list",
-    editorParams: { values: true },
+    editorParams: { valuesLookup: true },
   },
   {
     title: "Stok",
