@@ -1,0 +1,101 @@
+.grid-wrap {
+  flex: 1;
+  min-height: 0;
+  border: 1px solid #a0a0a0;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* ---- Retro data grid (Tabulator overrides) ---- */
+.tabulator {
+  border: none;
+  background: #fff;
+  font-size: 11px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.tabulator .tabulator-header {
+  background: #e9edf3;
+  border-bottom: 1px solid #a0a0a0;
+  color: #1b3a5c;
+  font-weight: 400;
+}
+
+.tabulator .tabulator-header .tabulator-col {
+  border-right: 1px solid #ccd6e0;
+  background: transparent;
+}
+
+.tabulator .tabulator-header .tabulator-col .tabulator-col-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabulator .tabulator-header .tabulator-col:hover {
+  background: #e5eefb;
+}
+
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content {
+  padding: 2px 6px;
+}
+
+.tabulator .tabulator-row {
+  background: #ffffff;
+  min-height: 24px;
+  height: 24px;
+}
+
+.tabulator .tabulator-row.tabulator-row-even {
+  background: #f5f7fa;
+}
+
+.tabulator .tabulator-row:hover {
+  background: #e5f0fb;
+}
+
+.tabulator .tabulator-row.tabulator-selected {
+  background: #cbe0f7 !important;
+}
+
+.tabulator .tabulator-cell {
+  border-right: 1px solid #e2e6ea;
+  padding: 2px 6px;
+  height: 24px;
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabulator .tabulator-cell.tabulator-editing {
+  border: 1px solid #316ac5;
+  padding: 1px 5px;
+  overflow: visible;
+  z-index: 1;
+}
+
+.tabulator .tabulator-footer {
+  background: #e9edf3;
+  border-top: 1px solid #a0a0a0;
+  font-size: 11px;
+}
+
+.tabulator .tabulator-footer .tabulator-page {
+  min-width: 0;
+  height: 20px;
+  padding: 0 6px;
+  background-image: none;
+  box-shadow: none;
+}
+
+.tabulator button,
+.tabulator input,
+.tabulator select {
+  font-size: 11px;
+}
+
+.cell-mono {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.3px;
+}

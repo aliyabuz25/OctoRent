@@ -1,0 +1,81 @@
+.stock-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+  background: #e6e9ee;
+  border: 1px solid #c8cdd4;
+  border-radius: 2px;
+}
+
+.grid-toolbar .searchbox {
+  flex: 1;
+  max-width: 360px;
+}
+
+.grid-toolbar button {
+  min-width: 0;
+  height: 23px;
+  padding: 0 10px;
+  font-size: 11px;
+  background: #f2f2f2;
+  background-image: none;
+  border: 1px solid #adadad;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.grid-toolbar button:hover {
+  background: #e5f0fb;
+  border-color: #7eb4ea;
+}
+
+.grid-toolbar button:active {
+  background: #cde4f7;
+}
+
+.grid-toolbar button.default {
+  border-color: #1e5aa8;
+  background: #eaf2fb;
+}
+
+.toolbar-status {
+  margin-left: auto;
+  color: #1e5aa8;
+  font-weight: 600;
+}
+
+.grid-toolbar .searchbox input {
+  background: #ffffff;
+  background-image: none;
+  border: 1px solid #adadad;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 1px #d0d0d0;
+  padding: 2px 6px;
+  height: 22px;
+  box-sizing: border-box;
+}
+
+.grid-toolbar .searchbox input:focus {
+  border-color: #1e5aa8;
+  outline: none;
+}
+
+.grid-alert {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+  color: #8a0000;
+  background: #ffe9e9;
+  border: 1px solid #d4a0a0;
+  border-radius: 2px;
+}

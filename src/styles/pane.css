@@ -1,0 +1,28 @@
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-title {
+  padding: 3px 8px;
+  font-weight: 600;
+  color: #1b3a5c;
+  background: #dfe4ea;
+  border-bottom: 1px solid #c8cdd4;
+}
+
+.pane-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: #eef1f5;
+}
+
+.placeholder-text {
+  color: #4a5560;
+  font-size: 12px;
+}

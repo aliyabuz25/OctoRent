@@ -1,0 +1,63 @@
+.object-explorer {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #b6c7dd;
+  background: #fff;
+}
+
+.oe-title {
+  padding: 4px 8px;
+  font-weight: 600;
+  color: #1b3a5c;
+  background: #dfe4ea;
+  border-bottom: 1px solid #c8cdd4;
+}
+
+.oe-body {
+  flex: 1;
+  overflow: auto;
+  padding: 4px;
+}
+
+.oe-tree {
+  min-height: 100%;
+  font-size: 11px;
+}
+
+.oe-tree summary,
+.oe-item {
+  font-size: 11px;
+  padding: 1px 2px;
+}
+
+.oe-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 1px;
+}
+
+.oe-item:hover {
+  background: #eaf2fb;
+}
+
+.oe-item.selected {
+  background: #cbe0f7;
+  border-color: #7da2ce;
+}
+
+.oe-item.selected .oe-object-icon {
+  outline: 1px dotted #316ac5;
+}
+
+.oe-object-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  background: linear-gradient(#fefefe, #cfd8e6);
+  border: 1px solid #8a9bb5;
+}
