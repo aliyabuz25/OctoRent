@@ -25,7 +25,8 @@ const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }
       height: "100%",
       rowHeight: 24,
       vertAlign: "middle",
-      selectableRows: 1,
+      selectableRows: "multiple",
+      selectableRowsRangeMode: "click",
       columns,
     });
     tableRef.current = table;

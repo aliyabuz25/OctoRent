@@ -89,11 +89,29 @@ export default function StockPanel() {
       <ToastContainer toasts={toasts} onRemove={removeToast} />
       <div className="grid-toolbar">
         <div className="searchbox">
-          <input type="search" placeholder="Axtar..." value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value); tableRef.current?.applySearch(e.target.value); }} />
+          <input
+            type="search"
+            placeholder="Axtar..."
+            value={searchTerm}
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+              tableRef.current?.applySearch(event.target.value);
+            }}
+          />
         </div>
-        <button onClick={() => { setSearchTerm(""); tableRef.current?.clearFilters(); }}>Təmizlə</button>
-        <button onClick={() => tableRef.current?.exportCsv()}>CSV</button>
-        <button className="default" onClick={() => setProductModal({ mode: "create", product: null })}>Yeni məhsul</button>
+        <button onClick={() => {
+          setSearchTerm("");
+          tableRef.current?.clearFilters();
+        }}>Təmizlə</button>
+        <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
+          <button onClick={() => tableRef.current?.exportCsv()}>CSV</button>
+          <button
+            className="default"
+            onClick={() => setProductModal({ mode: "create", product: null })}
+          >
+            Yeni məhsul
+          </button>
+        </div>
       </div>
       <StockTable ref={tableRef} onCellEdited={persistEdit} onRowContext={(e, p) => setMenu({ x: e.clientX, y: e.clientY, product: p })} />
       {menu && <ContextMenu x={menu.x} y={menu.y} items={menuItems} onClose={() => setMenu(null)} />}

@@ -239,6 +239,53 @@ const seedBase = async () => {
   }
 };
 
+
+app.get("/api/purchases", async (_req, res) => {
+  const list = await hgetAll(PURCHASES_KEY);
+  res.json(list.sort((a,b)=>(b.at||"").localeCompare(a.at||"")));
+});
+app.post("/api/purchases", async (req, res) => {
+  const body = req.body || {};
+  if(!body.supplier || !body.items || !Array.isArray(body.items) || body.items.length===0){
+    return res.status(400).json({error:"Satıcı və məhsullar tələb olunur"});
+  }
+  const doc = { id: uid(), type:"purchase", supplier: body.supplier, reference: body.reference||"", date: body.date||today(), items: body.items, total: Number(body.total)||0, note: body.note||"", status: body.status||"draft", at: nowIso(), createdAt: nowIso(), updated: today() };
+  await hset(PURCHASES_KEY, doc);
+  await redis.hset(AUDIT_KEY, uid(), JSON.stringify({at:nowIso(),action:"purchase.create",entityId:doc.id}));
+  res.status(201).json(doc);
+});
+app.put("/api/purchases/:id", async (req,res)=>{
+  const raw=await redis.hget(PURCHASES_KEY,req.params.id); if(!raw) return res.status(404).json({error:"Tapılmadı"});
+  const cur=JSON.parse(raw); const doc={...cur,...req.body,id:cur.id,updated:today()};
+  await hset(PURCHASES_KEY,doc);
+  await redis.hset(AUDIT_KEY,uid(),JSON.stringify({at:nowIso(),action:"purchase.update",entityId:doc.id}));
+  res.json(doc);
+});
+app.delete("/api/purchases/:id", async (req,res)=>{ await hdel(PURCHASES_KEY,req.params.id); res.status(204).end(); });
+
+app.get("/api/sales", async (_req,res)=>{
+  const list=await hgetAll(SALES_KEY);
+  res.json(list.sort((a,b)=>(b.at||"").localeCompare(a.at||"")));
+});
+app.post("/api/sales", async (req,res)=>{
+  const body=req.body||{};
+  if(!body.customer || !body.items || !Array.isArray(body.items)||body.items.length===0){
+    return res.status(400).json({error:"Müştəri və məhsullar tələb olunur"});
+  }
+  const doc={ id:uid(), type:"sale", customer: body.customer, reference: body.reference||"", date: body.date||today(), items: body.items, total: Number(body.total)||0, note: body.note||"", status: body.status||"draft", at: nowIso(), createdAt: nowIso(), updated: today() };
+  await hset(SALES_KEY,doc);
+  await redis.hset(AUDIT_KEY,uid(),JSON.stringify({at:nowIso(),action:"sale.create",entityId:doc.id}));
+  res.status(201).json(doc);
+});
+app.put("/api/sales/:id", async (req,res)=>{
+  const raw=await redis.hget(SALES_KEY,req.params.id); if(!raw) return res.status(404).json({error:"Tapılmadı"});
+  const cur=JSON.parse(raw); const doc={...cur,...req.body,id:cur.id,updated:today()};
+  await hset(SALES_KEY,doc);
+  await redis.hset(AUDIT_KEY,uid(),JSON.stringify({at:nowIso(),action:"sale.update",entityId:doc.id}));
+  res.json(doc);
+});
+app.delete("/api/sales/:id", async (req,res)=>{ await hdel(SALES_KEY,req.params.id); res.status(204).end(); });
+
 seedBase().then(() => {
   app.listen(PORT, () => console.log(`API çalışıyor: http://localhost:${PORT}`));
 }).catch((e) => { console.error(e); process.exit(1); });
