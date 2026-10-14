@@ -51,11 +51,12 @@ export default function StockPanel() {
     tableRef.current?.reload();
   }, p.id ? "Məhsul yeniləndi" : "Məhsul əlavə edildi");
 
-  const applyStock = (delta) => run(async () => {
-    await api.changeStock(stockModal.id, delta);
-    setStockModal(null);
-    tableRef.current?.reload();
-  }, "Stok hərəkatı tətbiq olundu");
+  const applyStock = (delta, note) =>
+    run(async () => {
+      await api.changeStock(stockModal.id, delta, note);
+      setStockModal(null);
+      tableRef.current?.reload();
+    }, "Stok hərəkatı tətbiq olundu");
 
   const del = (p) => {
     if (!confirm(`"${p.name}" silinsin mi?`)) return;

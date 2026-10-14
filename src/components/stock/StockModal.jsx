@@ -19,75 +19,27 @@ export default function StockModal({ product, defaultMode = "in", onClose, onSub
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!delta) return;
-    onSubmit(delta);
+    onSubmit(delta, note);
   };
 
   return (
-    <Modal title="Stok Hareketi" onClose={onClose}>
+    <Modal title="Stok hərəkəti" onClose={onClose}>
       <form onSubmit={handleSubmit}>
         <div className="modal-body">
-          <div className="kv-row">
-            <span className="kv-label">Ürün</span>
-            <span className="kv-value">{product.name}</span>
-          </div>
-          <div className="kv-row">
-            <span className="kv-label">SKU</span>
-            <span className="kv-value mono">{product.sku}</span>
-          </div>
-          <div className="kv-row">
-            <span className="kv-label">Mevcut Stok</span>
-            <span className="kv-value">{current}</span>
-          </div>
-
+          <div className="kv-row"><span className="kv-label">Məhsul</span><span className="kv-value">{product.name}</span></div>
+          <div className="kv-row"><span className="kv-label">SKU</span><span className="kv-value mono">{product.sku}</span></div>
+          <div className="kv-row"><span className="kv-label">Cari stok</span><span className="kv-value">{current}</span></div>
           <div className="segmented">
-            <button
-              type="button"
-              className={mode === "in" ? "active" : ""}
-              onClick={() => setMode("in")}
-            >
-              Giriş
-            </button>
-            <button
-              type="button"
-              className={mode === "out" ? "active" : ""}
-              onClick={() => setMode("out")}
-            >
-              Çıkış
-            </button>
+            <button type="button" className={mode==="in"?"active":""} onClick={()=>setMode("in")}>Daxil</button>
+            <button type="button" className={mode==="out"?"active":""} onClick={()=>setMode("out")}>Çıxar</button>
           </div>
-
-          <div className="field">
-            <label htmlFor="s-amount">Miktar</label>
-            <input
-              id="s-amount"
-              type="number"
-              min="1"
-              autoFocus
-              value={amount}
-              onChange={(event) => setAmount(event.target.value)}
-            />
-          </div>
-
-          <div className="field">
-            <label htmlFor="s-note">Not (opsiyonel)</label>
-            <input id="s-note" value={note} onChange={(event) => setNote(event.target.value)} />
-          </div>
-
-          <div className="stock-result">
-            Yeni stok: <strong>{result}</strong>
-            {result <= (Number(product.minStock) || 0) && (
-              <span className="low-stock">kritik seviye</span>
-            )}
-          </div>
+          <div className="field"><label htmlFor="s-amount">Miqdar</label><input id="s-amount" type="number" min="1" autoFocus value={amount} onChange={(e)=>setAmount(e.target.value)}/></div>
+          <div className="field"><label htmlFor="s-note">Qeyd (istəyə bağlı)</label><input id="s-note" value={note} onChange={(e)=>setNote(e.target.value)}/></div>
+          <div className="stock-result">Yeni stok: <strong>{result}</strong>{result <= (Number(product.minStock)||0) && <span className="low-stock">kritis</span>}</div>
         </div>
-
         <div className="modal-footer">
-          <button type="button" className="btn-secondary" onClick={onClose}>
-            İptal
-          </button>
-          <button type="submit" className="btn-primary" disabled={!delta}>
-            Uygula
-          </button>
+          <button type="button" className="btn-secondary" onClick={onClose}>İmtina</button>
+          <button type="submit" className="btn-primary" disabled={!delta}>Tətbiq et</button>
         </div>
       </form>
     </Modal>
