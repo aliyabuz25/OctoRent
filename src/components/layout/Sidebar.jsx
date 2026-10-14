@@ -6,7 +6,7 @@ export default function Sidebar({ tabs, activeTab, onSelect }) {
         <ul className="tree-view has-collapse-button has-connector has-container oe-tree">
           <li>
             <details open>
-              <summary>RunStock</summary>
+              <summary>Stockix</summary>
               <ul>
                 {tabs.map((tab) => (
                   <li
