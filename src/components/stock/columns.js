@@ -5,8 +5,9 @@ const formatNumber = (cell) => Number(cell.getValue() || 0).toLocaleString("tr-T
 const formatStock = (cell) => {
   const value = Number(cell.getValue() || 0);
   const min = Number(cell.getRow().getData().minStock || 0);
-  const color = value <= 0 ? "#c50f1f" : value <= min ? "#9d5d00" : "#0b6a0b";
-  return `<span style="color:${color};font-weight:600">${value}</span>`;
+  const color = value <= 0 ? "#dc2626" : value <= min ? "#d97706" : "#16a34a";
+  const bg = value <= 0 ? "#fee2e2" : value <= min ? "#fef3c7" : "#dcfce7";
+  return `<span style="background:${bg};color:${color};font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;min-width:32px;text-align:center;">${value}</span>`;
 };
 
 const validateEAN = (_cell, value) => {
@@ -21,44 +22,42 @@ const money = {
 };
 
 export const columns = [
-  { title: "SKU", field: "sku", width: 100, headerFilter: "input", editor: "input" },
+  { title: "SKU", field: "sku", width: 110, minWidth: 90, editor: "input", sorter: "string" },
   {
     title: "EAN-13",
     field: "ean13",
-    width: 128,
-    headerFilter: "input",
+    width: 130,
+    minWidth: 110,
     editor: "input",
     validator: validateEAN,
     formatter: (cell) => `<span class="cell-mono">${cell.getValue() || ""}</span>`,
   },
-  { title: "Ürün", field: "name", width: 190, headerFilter: "input", editor: "input" },
+  { title: "Məhsul Adı", field: "name", width: 240, minWidth: 180, editor: "input", sorter: "string" },
   {
-    title: "Kategori",
+    title: "Kateqoriya",
     field: "category",
-    width: 110,
-    headerFilter: "list",
-    headerFilterParams: { valuesLookup: true },
-    editor: "autocomplete",
-    editorParams: { valuesLookup: true, showListOnEmpty: true, freetext: true },
+    width: 130,
+    minWidth: 100,
+    editor: "input",
+    sorter: "string",
   },
-  { title: "Marka", field: "brand", width: 100, headerFilter: "input", editor: "input" },
+  { title: "Marka", field: "brand", width: 120, minWidth: 90, editor: "input", sorter: "string" },
   {
-    title: "Birim",
+    title: "Vahid",
     field: "unit",
-    width: 72,
-    headerFilter: "list",
-    headerFilterParams: { valuesLookup: true },
+    width: 80,
+    minWidth: 70,
+    hozAlign: "center",
     editor: "list",
     editorParams: { valuesLookup: true },
   },
   {
     title: "Stok",
     field: "quantity",
-    width: 72,
-    hozAlign: "right",
+    width: 90,
+    minWidth: 80,
+    hozAlign: "center",
     sorter: "number",
-    headerFilter: "number",
-    headerFilterFunc: ">=",
     editor: "number",
     editorParams: { min: 0, step: 1 },
     formatter: formatStock,
@@ -66,7 +65,8 @@ export const columns = [
   {
     title: "Kritik",
     field: "minStock",
-    width: 72,
+    width: 80,
+    minWidth: 70,
     hozAlign: "right",
     sorter: "number",
     editor: "number",
@@ -74,9 +74,10 @@ export const columns = [
     formatter: formatNumber,
   },
   {
-    title: "Alış",
+    title: "Alış Qiyməti",
     field: "cost",
-    width: 88,
+    width: 115,
+    minWidth: 100,
     hozAlign: "right",
     sorter: "number",
     editor: "number",
@@ -84,18 +85,29 @@ export const columns = [
     ...money,
   },
   {
-    title: "Fiyat",
+    title: "Satış Qiyməti",
     field: "price",
-    width: 92,
+    width: 115,
+    minWidth: 100,
     hozAlign: "right",
     sorter: "number",
-    headerFilter: "number",
-    headerFilterFunc: ">=",
     editor: "number",
     editorParams: { min: 0, step: 0.01 },
     ...money,
   },
-  { title: "Lokasyon", field: "location", width: 88, headerFilter: "input", editor: "input" },
-  { title: "Tedarikçi", field: "supplier", width: 118, headerFilter: "input", editor: "input" },
-  { title: "Güncelleme", field: "updated", width: 96, hozAlign: "center" },
+  {
+    title: "Kirayə/Gün",
+    field: "rentalPrice",
+    width: 115,
+    minWidth: 100,
+    hozAlign: "right",
+    sorter: "number",
+    editor: "number",
+    editorParams: { min: 0, step: 0.01 },
+    ...money,
+  },
+  { title: "Seriya No", field: "serialNumber", width: 130, minWidth: 100, editor: "input" },
+  { title: "Lokasiya / Rəf", field: "location", width: 120, minWidth: 100, editor: "input" },
+  { title: "Təchizatçı", field: "supplier", width: 140, minWidth: 110, editor: "input" },
+  { title: "Yenilənmə", field: "updated", width: 120, minWidth: 100, hozAlign: "center" },
 ];

@@ -1,0 +1,207 @@
+/* ================================================================
+   Modern Clean Minimalist MenuBar Styles
+   ================================================================ */
+
+.app-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 12px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1000;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Left side navigation menu (Fayl, Baxış) */
+.menubar-left-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.menubar-menu-wrapper {
+  position: relative;
+}
+
+/* Clear, borderless, non-glossy natural menu button */
+.menubar-nav-trigger {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  height: 26px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+  border-radius: 5px;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.12s ease;
+  box-sizing: border-box;
+}
+
+.menubar-nav-trigger:hover,
+.menubar-nav-trigger.is-open {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Elegant dropdown overlay */
+.menubar-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 185px;
+  padding: 4px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  animation: menubarFadeIn 0.12s ease-out;
+}
+
+@keyframes menubarFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menubar-dropdown-item {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #1e293b;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.menubar-dropdown-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.menubar-dropdown-item .dropdown-label {
+  font-weight: 450;
+}
+
+.menubar-dropdown-item .dropdown-shortcut {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-left: 16px;
+}
+
+.menubar-dropdown-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 4px 0;
+}
+
+/* Right side actions and user status */
+.menubar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.menubar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: all 0.12s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.menubar-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.menubar-btn:active {
+  transform: translateY(1px);
+}
+
+.menubar-btn.logout {
+  color: #b91c1c;
+  border-color: #fee2e2;
+  background: #ffffff;
+}
+
+.menubar-btn.logout:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.menubar-info-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 220px;
+  flex-shrink: 1;
+}
+
+.menubar-info-pill.tenant {
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.menubar-info-pill.user {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Responsive adjustment */
+@media (max-width: 820px) {
+  .menubar-info-pill.tenant {
+    max-width: 130px;
+  }
+  .menubar-info-pill.user {
+    max-width: 110px;
+  }
+}

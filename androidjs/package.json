@@ -1,0 +1,20 @@
+{
+  "name": "runstock-android",
+  "app-name": "RunStock",
+  "package-name": "runstock",
+  "version": "1.0.0",
+  "description": "RunStock inventory management for Android",
+  "main": "main.js",
+  "project-type": "webview",
+  "dist-path": "./dist",
+  "permission": [
+    "android.permission.INTERNET",
+    "android.permission.ACCESS_NETWORK_STATE"
+  ],
+  "theme": {
+    "fullScreen": false,
+    "colorAccent": "#454545",
+    "colorPrimary": "#454545",
+    "colorPrimaryDark": "#303030"
+  }
+}

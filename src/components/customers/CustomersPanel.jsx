@@ -1,12 +1,12 @@
 import EntityListPanel from "../common/EntityListPanel.jsx";
-const columns=[
-  {title:"Ad",field:"name",width:200,headerFilter:"input"},
-  {title:"Telefon",field:"phone",width:140,headerFilter:"input"},
-  {title:"Email",field:"email",width:180,headerFilter:"input"},
-  {title:"Ünvan",field:"address",width:220,headerFilter:"input"},
-  {title:"VÖEN",field:"taxNo",width:120,headerFilter:"input"},
-  {title:"Qeyd",field:"note",width:200,headerFilter:"input"},
-  {title:"Yaradılıb",field:"createdAt",width:160},
+const columns = [
+  { title: "Müştəri Adı", field: "name", width: 220, minWidth: 160, sorter: "string" },
+  { title: "Telefon", field: "phone", width: 150, minWidth: 110 },
+  { title: "Email", field: "email", width: 180, minWidth: 130 },
+  { title: "VÖEN", field: "taxNo", width: 140, minWidth: 100 },
+  { title: "Ünvan", field: "address", minWidth: 200 },
+  { title: "Qeyd", field: "note", width: 160, minWidth: 110 },
+  { title: "Yaradılıb", field: "createdAt", width: 150, minWidth: 120 },
 ];
 const fields=[
   {key:"name",label:"Ad *",wide:true},

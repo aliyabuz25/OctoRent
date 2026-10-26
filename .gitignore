@@ -3,3 +3,13 @@ dist
 .DS_Store
 *.log
 .env
+connection.conf
+network.conf
+build-admin
+dist-apk
+dist-mobile
+androidjs/dist
+androidjs/assets/network.conf
+androidjs/views/*
+!androidjs/views/.gitkeep
+tools/admin-native/runstock-admin.app

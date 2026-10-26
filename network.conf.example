@@ -1,0 +1,4 @@
+# API origin only. Use a trusted HTTPS certificate for a public server.
+# For Android Studio emulator, use http://10.0.2.2:3001.
+# For a physical device on your LAN, use the server's LAN IP and port.
+API_BASE_URL=https://api.example.com

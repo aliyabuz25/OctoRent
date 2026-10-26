@@ -112,6 +112,14 @@ export default function ProductModal({ mode, initial, onClose, onSubmit }) {
                 <input id="p-price" type="number" step="0.01" value={form.price} onChange={setField("price")} />
               </div>
               <div className="field">
+                <label htmlFor="p-rental-price">Kirayə Qiyməti (Günlük ₺)</label>
+                <input id="p-rental-price" type="number" step="0.01" value={form.rentalPrice || ""} onChange={setField("rentalPrice")} />
+              </div>
+              <div className="field">
+                <label htmlFor="p-serial">Seriya Nömrəsi</label>
+                <input id="p-serial" value={form.serialNumber || ""} onChange={setField("serialNumber")} />
+              </div>
+              <div className="field">
                 <label htmlFor="p-loc">Raf / Lokasyon</label>
                 <input id="p-loc" value={form.location} onChange={setField("location")} />
               </div>

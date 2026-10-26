@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import { api } from "../../lib/api.js";
 import { columns } from "./columns.js";
+import { exportToExcel } from "../../lib/exportExcel.js";
 
 const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }, ref) {
   const containerRef = useRef(null);
@@ -15,15 +16,15 @@ const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }
 
   useEffect(() => {
     const table = new Tabulator(containerRef.current, {
-      layout: "fitData",
+      layout: "fitDataFill",
       responsiveLayout: false,
-      placeholder: "Məlumat yoxdur",
+      placeholder: "<div style='padding:40px;color:#64748b;font-size:13px;text-align:center;'>Məlumat tapılmadı</div>",
       pagination: true,
-      paginationSize: 15,
+      paginationSize: 25,
       paginationCounter: "rows",
       movableColumns: true,
       height: "100%",
-      rowHeight: 24,
+      rowHeight: 34,
       vertAlign: "middle",
       selectableRows: "multiple",
       selectableRowsRangeMode: "click",
@@ -43,6 +44,10 @@ const StockTable = forwardRef(function StockTable({ onRowContext, onCellEdited }
   useImperativeHandle(ref, () => ({
     reload: loadItems,
     exportCsv: () => tableRef.current?.download("csv", "runstock.csv"),
+    exportExcel: () => {
+      const data = tableRef.current?.getData("active");
+      exportToExcel(data || [], "stok_siyahisi.xlsx", "Stok");
+    },
     clearFilters: () => {
       const t = tableRef.current;
       if (!t) return;

@@ -14,6 +14,8 @@ const buildRows = (product) => [
   ["Tedarikçi", product.supplier],
   ["Alış Fiyatı", `${Number(product.cost || 0).toFixed(2)} ₺`],
   ["Satış Fiyatı", `${Number(product.price || 0).toFixed(2)} ₺`],
+  ["Kirayə Qiyməti (Günlük)", `${Number(product.rentalPrice || 0).toFixed(2)} ₺`],
+  ["Seriya Nömrəsi", product.serialNumber || "-"],
   ["Güncelleme", product.updated],
   ["Açıklama", product.description || "-"],
 ];

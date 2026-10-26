@@ -3,7 +3,7 @@ import Modal from "../common/Modal.jsx";
 
 export default function PurchasesModal({ onClose, onSave, suppliers, items }) {
   const [form, setForm] = useState({ supplier: suppliers[0]||"", reference: "", date: new Date().toISOString().slice(0,10), note: "", status: "draft", total: 0, items: [] });
-  const [row, setRow] = useState({ itemId: items[0]?.id||"", qty: 1, price: items[0]?.cost||0 });
+  const [row, setRow] = useState({ itemId: items[0]?.id||"", sku:"", name:"", qty: 1, price: items[0]?.cost||0 });
 
   useEffect(()=>{
     if(items.length && !row.itemId){ setRow(r=>({...r,itemId:items[0].id, price: items[0].cost})); }
@@ -16,11 +16,36 @@ export default function PurchasesModal({ onClose, onSave, suppliers, items }) {
   },[row.itemId,items]);
 
   const addLine = ()=>{
-    if(!row.itemId) return;
-    const it=items.find(x=>x.id==row.itemId);
-    const line = { id: Date.now(), itemId: it.id, sku: it.sku, name: it.name, qty: Number(row.qty)||1, price: Number(row.price)||0, total: (Number(row.qty)||1)*(Number(row.price)||0) };
-    setForm(f=>({...f, items:[...f.items,line], total: [...f.items,line].reduce((s,l)=>s+l.total,0)}));
-    setRow({ itemId: items[0]?.id||"", qty:1, price: items[0]?.cost||0 });
+    const qty = Number(row.qty)||1;
+    const price = Number(row.price)||0;
+    if(qty <= 0) return;
+    if(row.itemId){
+      const it=items.find(x=>x.id==Number(row.itemId)||x.id==row.itemId);
+      if(it){
+        const line = { id: Date.now() + Math.random(), itemId: it.id, sku: it.sku, name: it.name, qty, price, total: qty*price };
+        const list=[...form.items,line];
+        setForm(f=>({...f, items:list, total: list.reduce((s,l)=>s+l.total,0)}));
+        setRow({ itemId: items[0]?.id||"", sku:"", name:"", qty:1, price: items[0]?.cost||0 });
+        return;
+      }
+    }
+    if(row.sku){
+      const it=items.find(x=>String(x.sku).toLowerCase()===String(row.sku).toLowerCase());
+      if(it){
+        const line = { id: Date.now() + Math.random(), itemId: it.id, sku: it.sku, name: it.name, qty, price: price||it.cost, total: qty*(price||it.cost) };
+        const list=[...form.items,line];
+        setForm(f=>({...f, items:list, total: list.reduce((s,l)=>s+l.total,0)}));
+        setRow({ itemId: items[0]?.id||"", sku:"", qty:1, price: items[0]?.cost||0 });
+        return;
+      }
+    }
+    if(row.name){
+      const line = { id: Date.now() + Math.random(), itemId: null, sku: row.sku||"", name: row.name, qty, price, total: qty*price };
+      const list=[...form.items,line];
+      setForm(f=>({...f, items:list, total: list.reduce((s,l)=>s+l.total,0)}));
+      setRow({ itemId: items[0]?.id||"", sku:"", name:"", qty:1, price:0 });
+      return;
+    }
   };
 
   const removeLine = (id)=>{ const list=form.items.filter(x=>x.id!=id); setForm(f=>({...f,items:list,total:list.reduce((s,l)=>s+l.total,0)})); };
@@ -49,13 +74,20 @@ export default function PurchasesModal({ onClose, onSave, suppliers, items }) {
           </div>
 
           <div style={{marginTop:12,border:"1px solid #e8edf2",borderRadius:6}}>
-            <div style={{display:"flex",gap:6,padding:8,background:"#f8fafc",borderBottom:"1px solid #eef2f6"}}>
-              <select style={{width:240}} value={row.itemId} onChange={(e)=>setRow(r=>({...r,itemId:e.target.value}))}>
+            <div style={{display:"flex",gap:6,padding:8,background:"#f8fafc",borderBottom:"1px solid #eef2f6",flexWrap:"wrap"}}>
+              <select style={{width:240}} value={row.itemId} onChange={(e)=>{
+                const val=e.target.value;
+                const it=items.find(x=>String(x.id)===String(val));
+                setRow(r=>({...r,itemId:val, sku:it?.sku||"", name:it?.name||"", price: it?.cost||r.price}));
+              }}>
+                <option value="">-- Seçin (və ya əl ilə yazın) --</option>
                 {items.map(it=><option key={it.id} value={it.id}>{it.sku} - {it.name}</option>)}
               </select>
-              <input type="number" style={{width:90}} value={row.qty} onChange={(e)=>setRow(r=>({...r,qty:e.target.value}))}/>
-              <input type="number" step="0.01" style={{width:110}} value={row.price} onChange={(e)=>setRow(r=>({...r,price:e.target.value}))}/>
-              <button type="button" onClick={addLine}>Sətir əlavə et</button>
+              <input type="text" placeholder="SKU" style={{width:90}} value={row.sku||""} onChange={(e)=>setRow(r=>({...r,sku:e.target.value,itemId:""}))}/>
+              <input type="text" placeholder="Məhsul adı" style={{width:160}} value={row.name||""} onChange={(e)=>setRow(r=>({...r,name:e.target.value,itemId:""}))}/>
+              <input type="number" placeholder="Miqdar" style={{width:70}} value={row.qty} onChange={(e)=>setRow(r=>({...r,qty:e.target.value}))}/>
+              <input type="number" step="0.01" placeholder="Qiymət" style={{width:80}} value={row.price} onChange={(e)=>setRow(r=>({...r,price:e.target.value}))}/>
+              <button type="button" onClick={addLine}>+ Sətir əlavə et</button>
             </div>
             <table style={{width:"100%",fontSize:12,borderCollapse:"collapse"}}>
               <thead><tr style={{background:"#fafafa"}}>{["SKU","Məhsul","Miqdar","Qiymət","Cəmi",""].map(h=><th key={h} style={{textAlign:"left",padding:"6px 10px",borderBottom:"1px solid #eef2f6"}}>{h}</th>)}</tr></thead>

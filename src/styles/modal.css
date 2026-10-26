@@ -82,34 +82,49 @@
   border-top: 1px solid #e3e8ee;
 }
 
-/* Buttons inside modals: clean flat style (overrides 7.css) */
+/* Buttons inside modals: VS2010 / POS (Aero) style */
 .modal button {
   font-family: inherit;
   font-size: 12px;
-  border: 1px solid #cbd5e1;
-  background: #f3f4f6;
-  background-image: none;
+  border: 1px solid #a9a9a9;
+  background: linear-gradient(to bottom, #f2f2f2 0%, #e2e2e2 100%);
+  background-image: linear-gradient(to bottom, #f2f2f2 0%, #e2e2e2 100%);
   color: #1f2933;
-  border-radius: 6px;
-  padding: 7px 16px;
+  border-radius: 3px;
+  padding: 6px 16px;
   box-shadow: none;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
 }
 
-.modal button:hover {
-  background: #e5e7eb;
+.modal button:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 100%);
+  background-image: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 100%);
+  border-color: #3c7fb1;
+}
+
+.modal button:active:not(:disabled) {
+  background: linear-gradient(to bottom, #c4e5f6 0%, #98d5f5 100%);
+  background-image: linear-gradient(to bottom, #c4e5f6 0%, #98d5f5 100%);
+  border-color: #2c628b;
 }
 
 .modal .btn-primary {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: linear-gradient(to bottom, #5c9fdd 0%, #2f6cb0 100%);
+  background-image: linear-gradient(to bottom, #5c9fdd 0%, #2f6cb0 100%);
+  border-color: #1f5a8f;
   color: #fff;
 }
 
-.modal .btn-primary:hover {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
+.modal .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #7cb4e8 0%, #3f82c6 100%);
+  background-image: linear-gradient(to bottom, #7cb4e8 0%, #3f82c6 100%);
+  border-color: #1b4f7e;
+}
+
+.modal .btn-primary:active:not(:disabled) {
+  background: linear-gradient(to bottom, #3f82c6 0%, #2a5f9c 100%);
+  background-image: linear-gradient(to bottom, #3f82c6 0%, #2a5f9c 100%);
+  border-color: #17456f;
 }
 
 .modal .btn-secondary {
@@ -117,11 +132,16 @@
 }
 
 .modal .btn-ghost {
-  padding: 6px 12px;
+  background: transparent;
+  background-image: none;
+  border-color: transparent;
 }
 
 .modal button:disabled {
-  opacity: 0.5;
+  color: #9a9a9a;
+  background: linear-gradient(to bottom, #f4f4f4 0%, #ededed 100%);
+  background-image: linear-gradient(to bottom, #f4f4f4 0%, #ededed 100%);
+  border-color: #c9c9c9;
   cursor: not-allowed;
 }
 
@@ -328,4 +348,221 @@
 .barcode-invalid {
   color: #dc2626;
   font-size: 11px;
+}
+
+/* ================================================================
+   Desktop Device Pairing Modal (DevicePairModal) - Clean & Minimal
+   ================================================================ */
+.pair-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: pairFadeIn 0.2s ease-out;
+}
+
+@keyframes pairFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pair-modal-card {
+  position: relative;
+  width: 380px;
+  max-width: 92vw;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 24px 20px;
+  animation: pairPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes pairPop {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Kapa butonu: Arxaplansız, sadə, smooth hover */
+.pair-modal-close {
+  all: unset;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border-radius: 50%;
+  color: #94a3b8;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.pair-modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.pair-modal-close:active {
+  transform: scale(0.92);
+}
+
+.pair-modal-header {
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.pair-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+
+.pair-modal-sub {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* Stage & QR Code wrapper */
+.pair-stage-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0 16px;
+}
+
+.pair-qr-wrapper {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.pair-qr-wrapper.is-paired {
+  border-color: #22c55e;
+  background: #f0fdf4;
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.2);
+}
+
+.pair-qr-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pair-qr-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.pair-qr-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.pair-success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.pair-success-badge h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.pair-success-badge p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Footer & Status */
+.pair-modal-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pair-status-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.pair-status-line.is-success {
+  color: #059669;
+  font-weight: 600;
+}
+
+.pair-status-line.is-expired {
+  color: #dc2626;
+}
+
+.pair-refresh-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: all 0.12s ease;
+}
+
+.pair-refresh-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
 }

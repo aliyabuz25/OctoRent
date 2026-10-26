@@ -27,10 +27,12 @@ export default function EntityListPanel({ title, entity, columns, fields, nameFi
 
   const copy = (txt,lbl)=>{ navigator.clipboard?.writeText(txt||""); push(lbl+" kopyalandı","info"); };
   const menuItems = menu ? [
-    { label:"Düzəliş", action:()=>setModal({mode:"edit",row:menu.row}) },
-    { label:"Kopyalayaraq yeni", action:()=>setModal({mode:"create",row:{...menu.row,id:undefined}}) },
+    { label: "Düzəliş et", action: () => setModal({ mode: "edit", row: menu.row }) },
+    { label: "Kopyalayaraq yeni yarat", action: () => setModal({ mode: "create", row: { ...menu.row, id: undefined } }) },
     null,
-    { label:"Sil", danger:true, action:()=>del(menu.row) },
+    { label: "Adı kopyala", action: () => copy(menu.row[nameField], "Ad") },
+    null,
+    { label: "Sil", danger: true, action: () => del(menu.row) },
   ] : [];
 
   const empty = fields.reduce((o,f)=>{ o[f.key]=f.default||""; return o; },{});
@@ -42,9 +44,12 @@ export default function EntityListPanel({ title, entity, columns, fields, nameFi
         <div className="searchbox">
           <input type="search" placeholder="Axtar..." value={search} onChange={(e)=>{ setSearch(e.target.value); gridRef.current?.applySearch(e.target.value); }}/>
         </div>
-        <button onClick={()=>{ setSearch(""); gridRef.current?.clearFilters(); }}>Təmizlə</button>
-        <button onClick={()=>gridRef.current?.exportCsv(entity+".csv")}>CSV</button>
-        <button className="default" onClick={()=>setModal({mode:"create",row:empty})}>Yeni</button>
+        <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
+          <button onClick={()=>{ setSearch(""); gridRef.current?.clearFilters(); }}>Təmizlə</button>
+          <button onClick={()=>gridRef.current?.exportCsv(entity+".csv")}>CSV</button>
+          <button onClick={()=>gridRef.current?.exportExcel(entity+".xlsx")}>Excel</button>
+          <button className="default" onClick={()=>setModal({mode:"create",row:empty})}>Yeni</button>
+        </div>
       </div>
       <DataGrid ref={gridRef} columns={columns} dataFetcher={fetcher} onRowContext={(e,r)=>setMenu({x:e.clientX,y:e.clientY,row:r})}/>
       {menu && <ContextMenu x={menu.x} y={menu.y} items={menuItems} onClose={()=>setMenu(null)}/>}

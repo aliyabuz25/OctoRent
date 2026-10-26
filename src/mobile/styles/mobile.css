@@ -1,0 +1,1277 @@
+/* ================================================================
+   OctoRent Mobile — Native iOS/Android feel
+   ================================================================ */
+
+/* ---------------- design tokens: Apple SwiftUI theme ---------------- */
+:root {
+  --m-bg:               #f2f2f7;   /* iOS grouped background */
+  --m-surface:          #ffffff;   /* iOS card surface */
+  --m-card-inner:       #f9f9fb;
+  --m-border:           rgba(60, 60, 67, 0.12); /* 0.5px hairline */
+  --m-border-subtle:    rgba(60, 60, 67, 0.06);
+  --m-text:             #1c1c1e;   /* Apple system label */
+  --m-muted:            #8e8e93;   /* Apple secondary label */
+  --m-primary:          #007aff;   /* Apple system blue */
+  --m-primary-rgb:      0, 122, 255;
+  --m-accent:           #007aff;
+  --m-success:          #34c759;   /* Apple system green */
+  --m-warning:          #ff9500;   /* Apple system orange */
+  --m-danger:           #ff3b30;   /* Apple system red */
+  --m-indigo:           #5856d6;
+  --m-purple:           #af52de;
+  --m-radius:           16px;
+  --m-radius-sm:        10px;
+  --m-radius-pill:      9999px;
+  --m-shadow:           0 2px 10px -2px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.07);
+  --m-shadow-card:      0 4px 20px -3px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.08);
+
+  /* Ionic color overrides */
+  --ion-background-color:          var(--m-bg);
+  --ion-text-color:                var(--m-text);
+
+  --ion-color-primary:             #007aff;
+  --ion-color-primary-rgb:         0, 122, 255;
+  --ion-color-primary-contrast:    #ffffff;
+  --ion-color-primary-contrast-rgb:255,255,255;
+  --ion-color-primary-shade:       #006ee6;
+  --ion-color-primary-tint:        #1a87ff;
+
+  --ion-color-success:             #34c759;
+  --ion-color-success-rgb:         52, 199, 89;
+  --ion-color-success-contrast:    #ffffff;
+  --ion-color-success-shade:       #2eb04e;
+  --ion-color-success-tint:        #48cd69;
+
+  --ion-color-warning:             #ff9500;
+  --ion-color-warning-rgb:         255, 149, 0;
+  --ion-color-warning-contrast:    #ffffff;
+  --ion-color-warning-shade:       #e08300;
+  --ion-color-warning-tint:        #ffa01a;
+
+  --ion-color-danger:              #ff3b30;
+  --ion-color-danger-rgb:          255, 59, 48;
+  --ion-color-danger-contrast:     #ffffff;
+  --ion-color-danger-shade:        #e0342a;
+  --ion-color-danger-tint:         #ff4f45;
+
+  --ion-color-medium:              #8e8e93;
+  --ion-color-medium-rgb:          142, 142, 147;
+  --ion-color-medium-contrast:     #ffffff;
+  --ion-color-medium-shade:        #7d7d82;
+  --ion-color-medium-tint:         #99999e;
+
+  --ion-item-background:           var(--m-surface);
+  --ion-toolbar-background:        rgba(242, 242, 247, 0.85);
+
+  /* Safe-area tokens */
+  --sat: env(safe-area-inset-top);
+  --sab: env(safe-area-inset-bottom);
+}
+
+/* Base resets & Apple Typography */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+body, ion-app, ion-content {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.012em;
+}
+
+ion-content  { --background: var(--m-bg); --color: var(--m-text); }
+ion-item     { --background: var(--m-surface); --border-color: var(--m-border); }
+ion-card     { margin: 0; border-radius: var(--m-radius); box-shadow: var(--m-shadow); border: 0.5px solid var(--m-border); }
+ion-list     { background: var(--m-surface); }
+ion-note     { font-size: 14px; color: var(--m-muted); }
+ion-list-header ion-label {
+  font-size: 13px !important;
+  font-weight: 600;
+  color: var(--m-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Translucent toolbar (iOS blur & frosted glass) */
+ion-header[translucent] ion-toolbar,
+ion-header ion-toolbar {
+  --background: rgba(242, 242, 247, 0.82);
+  backdrop-filter: blur(28px) saturate(210%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%);
+  --border-color: rgba(60, 60, 67, 0.14);
+}
+
+ion-title {
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  font-size: 17px;
+}
+ion-title[size="large"] {
+  font-size: 32px !important;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  padding-inline-start: 16px;
+}
+
+/* Inset list (iOS grouped style) */
+ion-list[inset] {
+  border-radius: var(--m-radius) !important;
+  overflow: hidden;
+  margin: 12px 16px 16px !important;
+  box-shadow: var(--m-shadow);
+  border: 0.5px solid var(--m-border);
+  background: var(--m-surface) !important;
+}
+
+/* Item chevron */
+ion-item[detail]::part(detail-icon) {
+  color: var(--m-muted);
+  opacity: 0.45;
+  font-size: 16px;
+}
+
+/* ---------------- tab bar — SwiftUI Butter-smooth ---------------- */
+.native-tab-bar {
+  --background: rgba(255, 255, 255, 0.85);
+  --border: 0;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.16);
+  backdrop-filter: blur(28px) saturate(210%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%);
+  padding-bottom: var(--sab, env(safe-area-inset-bottom, 0px));
+  height: calc(54px + var(--sab, env(safe-area-inset-bottom, 0px)));
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.02);
+  transition: background 0.3s ease;
+}
+
+.native-tab-btn {
+  --color:          #8e8e93;
+  --color-selected: #007aff;
+  max-width: 100px;
+  position: relative;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Native SwiftUI Haptic Tap Response */
+.native-tab-btn:active {
+  transform: scale(0.91);
+}
+
+.native-tab-btn .feather-icon {
+  stroke: #8e8e93;
+  transition: stroke 0.25s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+}
+
+.native-tab-btn ion-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: -0.15px;
+  margin-top: 2px;
+  transition: color 0.22s ease, font-weight 0.22s ease;
+  z-index: 1;
+}
+
+/* Smooth spring indicator pill behind active tab */
+.native-tab-btn::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.65);
+  width: 48px;
+  height: 30px;
+  background: rgba(0, 122, 255, 0.10);
+  border-radius: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 0;
+}
+
+.native-tab-btn.tab-selected::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.native-tab-btn.tab-selected .feather-icon {
+  stroke: #007aff;
+  transform: scale(1.15) translateY(-1px);
+  filter: drop-shadow(0 2px 7px rgba(0, 122, 255, 0.32));
+}
+
+.native-tab-btn.tab-selected ion-label {
+  color: #007aff;
+  font-weight: 600;
+}
+
+/* ---------------- notification banner (SwiftUI) ---------------- */
+.swift-notif-banner {
+  margin: 12px 16px 4px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.08) 0%, #ffffff 100%);
+  border: 0.5px solid rgba(0, 122, 255, 0.24);
+  border-radius: 16px;
+  box-shadow: 0 4px 18px -4px rgba(0, 122, 255, 0.14), 0 1px 3px rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: swiftSlideDown 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes swiftSlideDown {
+  from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.swift-notif-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #007aff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.28);
+}
+
+.swift-notif-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.swift-notif-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: -0.2px;
+}
+
+.swift-notif-desc {
+  font-size: 11.5px;
+  color: #636366;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.swift-notif-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.swift-notif-btn {
+  background: #007aff;
+  color: #ffffff;
+  border: none;
+  padding: 6px 13px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.swift-notif-btn:active {
+  transform: scale(0.94);
+  background: #0062cc;
+}
+
+.swift-notif-close {
+  background: none;
+  border: none;
+  padding: 6px;
+  color: #8e8e93;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.swift-notif-close:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ---------------- page chrome ---------------- */
+.page-head  { padding: 14px 16px 8px; }
+.page-title { margin: 0; font-size: 26px; font-weight: 800; color: var(--m-text); letter-spacing: -0.5px; }
+.page-sub   { margin: 4px 0 0; font-size: 13px; color: var(--m-muted); font-weight: 500; }
+.page-pad   { padding: 0 16px 24px; }
+
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 18px 4px 8px;
+}
+.section-title { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--m-muted); }
+.section-link  { font-size: 14px; font-weight: 600; color: var(--m-primary); background: none; border: 0; padding: 4px; }
+
+/* ---------------- stat cards (SwiftUI) ---------------- */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 4px 16px 8px; }
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  padding: 14px 14px 12px;
+  border-radius: 18px;
+  background: var(--m-surface);
+  border: 0.5px solid var(--m-border);
+  box-shadow: var(--m-shadow);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+.stat-card.is-tappable { cursor: pointer; }
+.stat-card.is-tappable:active {
+  transform: scale(0.96);
+  opacity: 0.88;
+}
+
+.stat-head  { padding: 0; }
+.stat-label { font-size: 12px !important; color: var(--m-muted); font-weight: 600; letter-spacing: -0.1px; }
+.stat-value {
+  padding: 4px 0 2px !important;
+  font-size: 26px !important;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  --color: inherit;
+}
+.stat-sub   { padding: 0; font-size: 11.5px; color: var(--m-muted); margin-top: 2px; }
+
+.tone-primary { color: var(--m-primary) !important; }
+.tone-success { color: #34c759 !important; }
+.tone-warning { color: #ff9500 !important; }
+.tone-danger  { color: #ff3b30 !important; }
+.tone-muted   { color: var(--m-muted) !important; }
+
+/* ---------------- lists (SwiftUI feel) ---------------- */
+.m-list {
+  border-radius: var(--m-radius) !important;
+  overflow: hidden;
+  box-shadow: var(--m-shadow);
+  border: 0.5px solid var(--m-border);
+}
+.m-list ion-item {
+  --inner-padding-top: 11px;
+  --inner-padding-bottom: 11px;
+  transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.15s ease;
+}
+.m-list ion-item:active {
+  --background: rgba(0, 0, 0, 0.035);
+  transform: scale(0.988);
+}
+.m-list ion-item h2  { font-size: 15.5px; font-weight: 600; margin: 0; letter-spacing: -0.2px; }
+.m-list ion-item p   { font-size: 12.5px; color: var(--m-muted); margin: 3px 0 0; }
+
+.group-label {
+  position: sticky; top: 0; z-index: 2;
+  padding: 8px 16px; font-size: 12px; font-weight: 700;
+  color: var(--m-muted); background: var(--m-bg);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ---------------- chips / filters (SwiftUI Pills) ---------------- */
+.filter-row {
+  display: flex; gap: 8px; padding: 8px 16px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-row ion-chip {
+  margin: 0; flex: 0 0 auto;
+  height: 32px; border-radius: 16px;
+  font-size: 12.5px; font-weight: 600;
+  padding: 0 14px;
+  background: #e5e5ea;
+  color: #1c1c1e;
+  border: 0.5px solid transparent;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.filter-row ion-chip:active {
+  transform: scale(0.94);
+}
+.filter-row ion-chip[color="primary"] {
+  background: #007aff;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.35);
+}
+
+.count-line { padding: 4px 16px 8px; font-size: 12.5px; color: var(--m-muted); font-weight: 500; }
+
+.status-chip {
+  height: 24px; font-size: 11.5px; font-weight: 600;
+  border-radius: 12px;
+}
+
+/* ================================================================
+   Bottom Sheet — pure CSS/JS native feel
+   ================================================================ */
+
+/* Portal root — always in DOM, only blocks interaction when open */
+.bs-root {
+  position: fixed; inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+}
+.bs-root--open { pointer-events: auto; }
+
+/* Backdrop */
+.bs-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.4);
+}
+
+/* Sheet container */
+.bs-sheet {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: var(--m-surface);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -6px 48px rgba(0,0,0,0.18);
+  display: flex; flex-direction: column;
+  will-change: transform;
+  overflow: hidden;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Size variants */
+.bs-size-half { height: 46vh; }
+.bs-size-tall { height: 88vh; }
+.bs-size-full { height: calc(100vh - env(safe-area-inset-top, 0px)); border-radius: 12px 12px 0 0; }
+.bs-size-auto { max-height: 88vh; }
+
+/* Drag handle area — grabbable */
+.bs-handle-area {
+  flex: 0 0 auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background: var(--m-surface);
+  border-radius: 18px 18px 0 0;
+}
+.bs-handle-area:active { cursor: grabbing; }
+
+/* The visual pill */
+.bs-handle {
+  width: 36px; height: 4px; border-radius: 2px;
+  background: #c7c7cc;
+  margin: 10px auto 0;
+}
+
+/* Title row */
+.bs-title-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px 10px;
+  border-bottom: 1px solid var(--m-border);
+}
+.bs-title { font-size: 16px; font-weight: 700; color: var(--m-text); }
+.bs-close-btn {
+  background: none; border: none; padding: 4px 8px;
+  font-size: 14px; font-weight: 600; color: var(--m-primary);
+  cursor: pointer; border-radius: 8px;
+}
+.bs-close-btn:active { background: var(--m-bg); }
+
+/* Scrollable body */
+.bs-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Sticky footer */
+.bs-footer {
+  flex: 0 0 auto;
+}
+
+/* Content padding inside sheet */
+.sheet-body {
+  padding: 8px 16px 20px;
+  max-width: 760px; margin: 0 auto;
+}
+
+.sheet-search {
+  position: sticky; top: 0; z-index: 3;
+  background: var(--m-surface); padding-top: 4px;
+}
+.sheet-search ion-searchbar { --background: var(--m-bg); --border-radius: 10px; padding: 0; }
+
+/* Sticky footer shared style */
+.sheet-actions {
+  display: flex; gap: 8px;
+  padding: 10px 16px calc(10px + var(--sab, env(safe-area-inset-bottom, 0px)));
+  background: var(--m-surface);
+  border-top: 1px solid var(--m-border);
+}
+.sheet-actions ion-button { margin: 0; }
+.sheet-actions .btn-grow  { flex: 1; }
+
+.document-actions {
+  width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.document-actions ion-button:last-child { grid-column: 1 / -1; }
+
+.confirm-message { margin: 6px 0 4px; font-size: 15px; line-height: 1.5; }
+.confirm-actions { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+/* ---------------- forms ---------------- */
+.form-field { --highlight-color: var(--m-primary); }
+.req-star   { color: #525252; }
+.form-list  { border-radius: var(--m-radius); overflow: hidden; }
+.form-note  { font-size: 12.5px; color: var(--m-muted); margin: 8px 2px; }
+
+.form-total {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; margin-top: 10px;
+  border-radius: var(--m-radius);
+  background: #f2f2f7;
+  font-weight: 700; color: var(--m-primary);
+}
+
+/* ---------------- detail sheet ---------------- */
+.detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin: 8px 0 4px;
+}
+.detail-cell  { background: var(--m-bg); border-radius: 10px; padding: 9px 11px; }
+.detail-key   { font-size: 11px; color: var(--m-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+.detail-val   { font-size: 14.5px; font-weight: 700; color: var(--m-text); margin-top: 2px; word-break: break-word; }
+
+.sheet-hero   { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0 4px; }
+.sheet-hero h2 { margin: 0; font-size: 18px; font-weight: 800; }
+.sheet-hero p  { margin: 3px 0 0; font-size: 12.5px; color: var(--m-muted); }
+
+.qty-badge { font-size: 26px; font-weight: 800; line-height: 1; }
+
+.action-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.action-grid ion-button { margin: 0; }
+
+.line-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px; border: 1px solid var(--m-border);
+  border-radius: 10px; background: var(--m-surface); margin-bottom: 8px;
+}
+.line-row .line-main  { flex: 1; min-width: 0; }
+.line-row .line-name  { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.line-row .line-sub   { font-size: 12px; color: var(--m-muted); }
+.line-row ion-input   { width: 74px; --padding-start: 8px; --padding-end: 4px; }
+
+.line-input {
+  border: 1px solid var(--m-border); border-radius: 8px;
+  padding: 6px 8px; font-size: 13.5px; color: var(--m-text);
+  background: var(--m-surface); text-align: center;
+}
+.line-input:focus { outline: none; border-color: var(--m-primary); }
+
+/* ---------------- empty state ---------------- */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 48px 24px;
+}
+.empty-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 68px; height: 68px; border-radius: 50%;
+  background: #e5e5ea; color: var(--m-muted);
+  font-size: 30px; margin-bottom: 14px;
+}
+.empty-icon.is-warning { background: #e5e5ea; color: var(--m-text); }
+.empty-title { font-size: 16px; font-weight: 700; color: var(--m-text); }
+.empty-sub   { font-size: 13px; color: var(--m-muted); margin-top: 5px; max-width: 260px; }
+.empty-btn   { margin-top: 16px; }
+
+/* ---------------- segment control ---------------- */
+.kind-seg { padding: 8px 12px 0; }
+.kind-seg ion-segment {
+  --background: #e5e5ea;
+  border-radius: 10px; padding: 3px;
+}
+.kind-seg ion-segment-button {
+  --indicator-color: var(--m-surface);
+  --color: var(--m-muted);
+  --color-checked: var(--m-text);
+  --border-radius: 8px;
+  min-height: 34px; font-size: 13px; font-weight: 700; text-transform: none;
+}
+
+/* ---------------- login ---------------- */
+.mobile-splash {
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh; background: var(--m-bg);
+}
+
+.mobile-login-screen {
+  --background: var(--m-bg);
+}
+
+.mlogin-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(36px + var(--sat, 0px)) 20px calc(24px + var(--sab, 0px));
+  max-width: 420px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.mlogin-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.mlogin-logo-squircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.mlogin-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--m-text);
+  letter-spacing: -0.5px;
+}
+
+.mlogin-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--m-muted);
+}
+
+.mlogin-pair-card {
+  width: 100%;
+  border-radius: 24px;
+  background: var(--m-surface);
+  border: 0.5px solid var(--m-border);
+  box-shadow: var(--m-shadow);
+  padding: 24px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.mlogin-radar-visual {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.mlogin-radar-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--m-border);
+  pointer-events: none;
+}
+
+.mlogin-radar-ring.r1 {
+  width: 58px;
+  height: 58px;
+  animation: mlogin-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.mlogin-radar-ring.r2 {
+  width: 78px;
+  height: 78px;
+  animation: mlogin-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.75s;
+}
+
+.mlogin-radar-ring.r3 {
+  width: 96px;
+  height: 96px;
+  animation: mlogin-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite 1.5s;
+}
+
+@keyframes mlogin-pulse {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  50% { transform: scale(1.05); opacity: 0.2; }
+  100% { transform: scale(0.85); opacity: 0.7; }
+}
+
+.mlogin-radar-center {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--m-bg);
+  border: 0.5px solid var(--m-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mlogin-card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--m-text);
+  letter-spacing: -0.3px;
+}
+
+.mlogin-card-desc {
+  margin: 6px 0 16px;
+  font-size: 13px;
+  color: var(--m-muted);
+  line-height: 1.45;
+  max-width: 285px;
+}
+
+.mlogin-steps {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.mlogin-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--m-bg);
+  border: 0.5px solid var(--m-border);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.mlogin-step-num {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #27272a;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mlogin-step-text {
+  font-size: 12.5px;
+  color: var(--m-text);
+  line-height: 1.35;
+}
+
+.mlogin-step-text strong {
+  color: var(--m-text);
+  font-weight: 700;
+}
+
+.mlogin-error-banner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 0.5px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.mlogin-scan-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 14px;
+  border: none;
+  background: #18181b;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.mlogin-scan-btn:active {
+  transform: scale(0.97);
+  background: #000000;
+}
+
+.mlogin-scan-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.mlogin-btn-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.mlogin-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 20px;
+  padding-bottom: 4px;
+}
+
+.mlogin-security-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--m-muted);
+}
+
+.mlogin-version {
+  font-size: 11px;
+  color: var(--m-muted);
+  opacity: 0.6;
+}
+
+/* ---------------- settings page ---------------- */
+.settings-content { --background: var(--m-bg); }
+
+.settings-profile {
+  display: flex; align-items: center; gap: 14px;
+  margin: 16px 16px 4px;
+  padding: 16px;
+  background: var(--m-surface);
+  border-radius: var(--m-radius);
+  box-shadow: var(--m-shadow);
+}
+.settings-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--m-text); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 800; flex: 0 0 auto;
+}
+.settings-profile-name { font-size: 17px; font-weight: 700; }
+.settings-profile-role { font-size: 13px; color: var(--m-muted); margin-top: 2px; }
+.settings-profile-ctx  { font-size: 12px; color: var(--m-muted); margin-top: 1px; }
+.settings-list { /* uses ion-list[inset] styling */ }
+
+/* ---------------- more page ---------------- */
+.more-content { --background: var(--m-bg); }
+.more-list    { /* uses ion-list[inset] styling */ }
+
+/* ---------------- hub rows (legacy) ---------------- */
+.hub-card {
+  border-radius: var(--m-radius); overflow: hidden;
+  box-shadow: var(--m-shadow); margin-bottom: 14px;
+}
+.hub-card ion-item:last-child { --border-width: 0; }
+
+.profile-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px; background: #2c2c2e;
+  border-radius: var(--m-radius); color: #fff; margin-bottom: 14px;
+}
+.avatar {
+  display: flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); font-size: 19px; font-weight: 800; flex: 0 0 auto;
+}
+.profile-name { font-size: 16.5px; font-weight: 800; line-height: 1.2; }
+.profile-role { font-size: 12.5px; opacity: 0.85; margin-top: 2px; }
+.profile-ctx  { font-size: 11.5px; opacity: 0.75; margin-top: 2px; }
+
+/* ---------------- misc icons ---------------- */
+.bi          { display: inline-block; font-size: 1.05em; line-height: 1; vertical-align: -0.08em; }
+.icon-muted  { color: var(--m-muted); }
+
+/* ---------------- quick actions ---------------- */
+.quick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 4px 12px 0; }
+.quick-row ion-button { margin: 0; height: 44px; font-weight: 700; }
+
+/* ---------------- reports ---------------- */
+.report-bars   { padding: 6px 4px 0; }
+.report-bar    { margin-bottom: 10px; }
+.report-bar-top { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.report-bar-top span:last-child { color: var(--m-muted); font-weight: 600; }
+.report-bar-track { height: 8px; border-radius: 6px; background: #e5e5ea; overflow: hidden; }
+.report-bar-fill  { height: 100%; border-radius: 6px; background: var(--m-primary); }
+
+/* ---------------- fab ---------------- */
+ion-fab { margin-bottom: var(--sab, 0px); }
+ion-fab-button { --box-shadow: 0 4px 16px rgba(0,0,0,0.22); }
+
+/* ---------------- toast ---------------- */
+ion-toast { --border-radius: 14px; --box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+.toast-msg { font-size: 13.5px; }
+
+/* ---------------- SwiftUI UI Polish & Native Interactions ---------------- */
+ion-button {
+  --border-radius: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.15s ease;
+}
+ion-button:active {
+  transform: scale(0.965);
+  opacity: 0.9;
+}
+
+ion-searchbar {
+  --background: rgba(118, 118, 128, 0.12);
+  --border-radius: 12px;
+  --box-shadow: none;
+  --color: #1c1c1e;
+  --placeholder-color: #8e8e93;
+  --icon-color: #8e8e93;
+  padding: 6px 16px;
+  font-size: 15px;
+}
+
+ion-router-outlet {
+  contain: layout size style;
+  background: var(--m-bg);
+}
+
+/* Smooth tab switching animation */
+ion-tabs ion-router-outlet > .ion-page {
+  animation: swiftTabEnter 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes swiftTabEnter {
+  from {
+    opacity: 0.65;
+    transform: scale(0.988);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* SwiftUI List Item Colored Tiles */
+/* Single-Tone Unified List Item Tiles */
+.swift-tile {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+  background: #2c2c2e;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.swift-tile.is-danger {
+  background: #ff3b30;
+  color: #ffffff;
+}
+
+/* Single-Tone Stat Card Badges */
+.stat-card-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--m-text);
+}
+.stat-card-badge.tone-primary,
+.stat-card-badge.tone-warning,
+.stat-card-badge.tone-danger,
+.stat-card-badge.tone-success {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--m-text);
+}
+
+/* ================================================================
+   Device QR Pairing — Single-Tone Mobile Styles
+   ================================================================ */
+
+
+
+/* ================================================================
+   iOS Native Style QR Code Scanner (Clean & Minimalist)
+   ================================================================ */
+.ios-qr-root {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+.ios-qr-camera {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  background: #000000;
+  z-index: 1;
+}
+
+.ios-qr-camera video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.ios-qr-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Rounded square reticle with large dark backdrop cutout */
+.ios-qr-reticle {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 28px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.52);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ios-qr-reticle.is-success {
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
+  background: rgba(15, 23, 42, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+/* 4 iOS corner brackets */
+.ios-reticle-corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 3.5px solid #ffffff;
+  pointer-events: none;
+}
+
+.ios-reticle-corner.tl {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 26px;
+}
+
+.ios-reticle-corner.tr {
+  top: -1px;
+  right: -1px;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 26px;
+}
+
+.ios-reticle-corner.bl {
+  bottom: -1px;
+  left: -1px;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 26px;
+}
+
+.ios-reticle-corner.br {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 26px;
+}
+
+.ios-qr-reticle.is-success .ios-reticle-corner {
+  border-color: #34c759;
+}
+
+/* Success Card */
+.ios-qr-success-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  animation: iosQrPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes iosQrPop {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.ios-qr-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #34c759;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 18px rgba(52, 199, 89, 0.4);
+}
+
+.ios-qr-success-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.ios-qr-success-user {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Minimalist Topbar */
+.ios-qr-topbar {
+  position: absolute;
+  top: calc(16px + var(--sat, env(safe-area-inset-top, 0px)));
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.ios-qr-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.ios-qr-circle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.ios-qr-circle-btn:active {
+  transform: scale(0.9);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+/* Minimalist Bottombar */
+.ios-qr-bottombar {
+  position: absolute;
+  bottom: calc(32px + var(--sab, env(safe-area-inset-bottom, 0px)));
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  z-index: 10;
+}
+
+.ios-qr-hint {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  padding: 0 20px;
+}
+
+.ios-qr-error {
+  margin: 0 20px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.85);
+  backdrop-filter: blur(15px);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.ios-qr-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.ios-qr-action-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.ios-qr-action-btn.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.ios-qr-action-btn:active {
+  transform: scale(0.92);
+}
+
+
+

@@ -18,7 +18,7 @@ export default function SalesModal({ onClose, onSave, customers, items }) {
   const addLine = ()=>{
     if(!row.itemId) return;
     const it=items.find(x=>x.id==row.itemId);
-    const line = { id: Date.now(), itemId: it.id, sku: it.sku, name: it.name, qty: Number(row.qty)||1, price: Number(row.price)||0, total: (Number(row.qty)||1)*(Number(row.price)||0) };
+    const line = { id: Date.now() + Math.random(), itemId: it.id, sku: it.sku, name: it.name, qty: Number(row.qty)||1, price: Number(row.price)||0, total: (Number(row.qty)||1)*(Number(row.price)||0) };
     setForm(f=>({...f, items:[...f.items,line], total: [...f.items,line].reduce((s,l)=>s+l.total,0)}));
     setRow({ itemId: items[0]?.id||"", qty:1, price: items[0]?.price||0 });
   };

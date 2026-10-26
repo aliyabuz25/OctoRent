@@ -100,17 +100,24 @@ export default function StockPanel() {
             }}
           />
         </div>
-        <button onClick={() => {
-          setSearchTerm("");
-          tableRef.current?.clearFilters();
-        }}>Təmizlə</button>
         <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              tableRef.current?.clearFilters();
+            }}
+          >
+            Təmizlə
+          </button>
           <button onClick={() => tableRef.current?.exportCsv()}>CSV</button>
+          <button onClick={() => tableRef.current?.exportExcel()} title="Excel .xlsx formatında yüklə">
+            Excel
+          </button>
           <button
             className="default"
             onClick={() => setProductModal({ mode: "create", product: null })}
           >
-            Yeni məhsul
+            + Yeni Məhsul
           </button>
         </div>
       </div>

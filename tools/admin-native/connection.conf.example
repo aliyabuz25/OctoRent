@@ -1,0 +1,7 @@
+# RunStock Admin — nümunə konfiqurasiya.
+# Bu faylı "connection.conf" adı ilə kopyalayıb dəyərləri doldurun.
+# Axtarış sırası: $RUNSTOCK_ADMIN_CONF → exe yanı → cari qovluq →
+#                 ~/.config/runstock/connection.conf
+url=http://localhost:3001
+username=superadmin
+password=CHANGE_ME

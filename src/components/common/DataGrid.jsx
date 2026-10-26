@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
+import { exportToExcel } from "../../lib/exportExcel.js";
 
 const DataGrid = forwardRef(function DataGrid({ columns, dataFetcher, onCellEdited, onRowContext, options = {} }, ref) {
   const containerRef = useRef(null);
@@ -8,20 +9,20 @@ const DataGrid = forwardRef(function DataGrid({ columns, dataFetcher, onCellEdit
   const load = () => {
     const t = tableRef.current;
     if (!t || !dataFetcher) return Promise.resolve();
-    return dataFetcher().then((d) => t.setData(d)).catch((e) => console.error(e));
+    return dataFetcher().then((d) => t.setData(Array.isArray(d) ? d : [])).catch((e) => console.error(e));
   };
 
   useEffect(() => {
     const t = new Tabulator(containerRef.current, {
-      layout: "fitData",
+      layout: "fitDataFill",
       responsiveLayout: false,
-      placeholder: "Məlumat yoxdur",
+      placeholder: "<div style='padding:40px;color:#64748b;font-size:13px;text-align:center;'>Məlumat tapılmadı</div>",
       pagination: true,
-      paginationSize: 15,
+      paginationSize: 25,
       paginationCounter: "rows",
       movableColumns: true,
       height: "100%",
-      rowHeight: 24,
+      rowHeight: 34,
       vertAlign: "middle",
       selectableRows: 1,
       columns,
@@ -38,6 +39,10 @@ const DataGrid = forwardRef(function DataGrid({ columns, dataFetcher, onCellEdit
   useImperativeHandle(ref, () => ({
     reload: load,
     exportCsv: (name = "export.csv") => tableRef.current?.download("csv", name),
+    exportExcel: (name = "export.xlsx") => {
+      const data = tableRef.current?.getData("active");
+      exportToExcel(data || [], name);
+    },
     clearFilters: () => {
       const t = tableRef.current; if (!t) return; t.clearHeaderFilter(); t.clearFilter();
     },

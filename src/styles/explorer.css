@@ -1,63 +1,458 @@
-.object-explorer {
-  width: 240px;
+/* ========================================================
+   Windows Explorer Style Sidebar & Navigation Tree / List
+   ======================================================== */
+
+.win-explorer-sidebar {
+  width: 255px;
+  min-width: 230px;
+  max-width: 320px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  border-right: 2px solid #b6c7dd;
-  background: #fff;
+  border-right: 1px solid #cbd5e1;
+  background: #fbfcfd;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.03);
 }
 
-.oe-title {
-  padding: 4px 8px;
-  font-weight: 600;
-  color: #1b3a5c;
-  background: #dfe4ea;
-  border-bottom: 1px solid #c8cdd4;
+/* Titlebar */
+.wes-titlebar {
+  height: 34px;
+  padding: 0 10px;
+  background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+  border-bottom: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
-.oe-body {
+.wes-title-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.wes-app-icon {
+  font-size: 14px;
+  color: #1e40af;
+}
+
+.wes-title-text {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.wes-view-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.wes-tool-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 12px;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.wes-tool-btn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.wes-tool-btn.active {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+/* Search Box */
+.wes-search-box {
+  position: relative;
+  padding: 6px 8px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.wes-search-icon {
+  position: absolute;
+  left: 16px;
+  font-size: 11px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.wes-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 24px 4px 26px;
+  font-size: 11.5px;
+  font-family: inherit;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1e293b;
+  outline: none;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.wes-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+  background: #ffffff;
+}
+
+.wes-search-clear {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 15px;
+  color: #94a3b8;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.wes-search-clear:hover {
+  color: #334155;
+}
+
+/* Body */
+.wes-body {
   flex: 1;
-  overflow: auto;
-  padding: 4px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 6px 4px;
 }
 
-.oe-tree {
-  min-height: 100%;
-  font-size: 11px;
+.wes-body::-webkit-scrollbar {
+  width: 6px;
+}
+.wes-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.wes-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-.oe-tree summary,
-.oe-item {
-  font-size: 11px;
-  padding: 1px 2px;
+/* Tree View Layout */
+.wes-tree-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.oe-item {
+.wes-group {
+  margin-bottom: 3px;
+}
+
+.wes-group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s ease;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.wes-group-header:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.wes-chevron {
+  font-size: 9px;
+  color: #64748b;
+  transition: transform 0.15s ease;
+  display: inline-block;
+  width: 12px;
+  text-align: center;
+}
+
+.wes-chevron.open {
+  transform: rotate(90deg);
+}
+
+.wes-folder-icon {
+  font-size: 13.5px;
+  color: #f59e0b; /* Amber Windows Explorer folder */
+}
+
+.wes-group-icon {
+  font-size: 13px;
+}
+
+.wes-group-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wes-group-badge {
+  font-size: 10px;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Branch Children with Tree Indentation */
+.wes-group-children {
+  margin-left: 12px;
+  padding-left: 8px;
+  border-left: 1px dotted #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.wes-tree-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  padding: 0 8px 0 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #334155;
+  font-size: 11.5px;
+  transition: all 0.1s ease;
+  border: 1px solid transparent;
+  min-width: 0;
+}
+
+.wes-item-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.wes-item-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: #2563eb;
+  border-radius: 2px;
+  transition: height 0.15s ease;
+}
+
+.wes-tree-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.wes-tree-item.selected {
+  background: linear-gradient(to bottom, #eff6ff, #dbeafe) !important;
+  border-color: #bfdbfe !important;
+  color: #1e40af !important;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.wes-tree-item.selected .wes-item-indicator {
+  height: 16px;
+}
+
+.wes-item-icon {
+  font-size: 13px;
+  color: #475569;
+  stroke: #475569;
+  flex-shrink: 0;
+}
+
+.wes-tree-item.selected .wes-item-icon {
+  color: #2563eb;
+  stroke: #2563eb;
+}
+
+.wes-item-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.wes-pin-icon {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-left: auto;
+}
+
+/* ========================================================
+   List / Tiles View Mode
+   ======================================================== */
+
+.wes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 2px;
+}
+
+.wes-list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wes-list-category {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  padding: 4px 6px 2px 6px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.wes-tiles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wes-tile-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.wes-tile-card:hover {
+  border-color: #93c5fd;
+  background: #f8fafc;
+  transform: translateX(2px);
+}
+
+.wes-tile-card.selected {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.15);
+}
+
+.wes-tile-icon-wrap {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wes-tile-card.selected .wes-tile-icon-wrap {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.wes-tile-icon {
+  font-size: 14px;
+  color: #334155;
+  stroke: #334155;
+}
+
+.wes-tile-card.selected .wes-tile-icon {
+  color: #ffffff;
+  stroke: #ffffff;
+}
+
+.wes-tile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wes-tile-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wes-tile-card.selected .wes-tile-title {
+  color: #1e40af;
+}
+
+.wes-tile-sub {
+  font-size: 10px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========================================================
+   Status Bar Footer
+   ======================================================== */
+
+.wes-statusbar {
+  height: 24px;
+  padding: 0 10px;
+  background: #f1f5f9;
+  border-top: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.wes-status-left {
   display: flex;
   align-items: center;
   gap: 5px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 1px;
+  color: #64748b;
+  font-weight: 500;
 }
 
-.oe-item:hover {
-  background: #eaf2fb;
-}
-
-.oe-item.selected {
-  background: #cbe0f7;
-  border-color: #7da2ce;
-}
-
-.oe-item.selected .oe-object-icon {
-  outline: 1px dotted #316ac5;
-}
-
-.oe-object-icon {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  background: linear-gradient(#fefefe, #cfd8e6);
-  border: 1px solid #8a9bb5;
+.wes-status-right {
+  font-weight: 500;
 }

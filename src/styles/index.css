@@ -1,4 +1,5 @@
 @import "./base.css";
+@import "./menubar.css";
 @import "./explorer.css";
 @import "./pane.css";
 @import "./toolbar.css";
@@ -6,3 +7,118 @@
 @import "./menu.css";
 @import "./modal.css";
 @import "./toast.css";
+@import "./login.css";
+
+/* The desktop shell also remains usable in a phone sized browser. */
+@media (max-width: 760px) {
+  html,
+  body {
+    min-height: 100%;
+    height: auto;
+    overflow: auto;
+  }
+
+  #root,
+  .app {
+    min-height: 100dvh;
+    height: auto;
+    width: 100%;
+  }
+
+  .app-menubar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    font-size: 13px;
+  }
+
+  .workspace {
+    flex-direction: column;
+    min-height: calc(100dvh - 40px);
+  }
+
+  .object-explorer,
+  .win-explorer-sidebar {
+    width: 100%;
+    max-height: 31dvh;
+    flex: 0 0 auto;
+    border-right: 0;
+    border-bottom: 1px solid #b6c7dd;
+  }
+
+  .oe-title {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .oe-body {
+    overflow: auto;
+  }
+
+  .oe-tree,
+  .oe-tree summary,
+  .oe-item {
+    font-size: 13px;
+  }
+
+  .oe-item {
+    min-height: 34px;
+  }
+
+  .content {
+    min-height: 68dvh;
+  }
+
+  .pane-title {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .pane-body {
+    overflow: auto;
+    padding: 8px;
+  }
+
+  .grid-toolbar {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .grid-toolbar .searchbox {
+    flex: 1 1 100%;
+  }
+
+  .grid-wrap {
+    min-height: 52dvh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabulator {
+    min-width: 680px;
+    font-size: 13px;
+  }
+
+  button,
+  .btn {
+    min-height: 36px;
+    font-size: 13px;
+  }
+
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal,
+  .modal.modal-lg {
+    width: 100%;
+    max-width: none;
+    max-height: 92dvh;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+  }
+}

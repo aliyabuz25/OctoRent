@@ -65,3 +65,69 @@ ul[role="menu"] > [role="menuitem"] > a:focus {
   min-height: 0;
   background: #f0f0f0;
 }
+
+/* ---- Controls: VS2010 / POS (Aero) style ---- */
+button,
+.btn {
+  font-family: inherit;
+  font-size: 12px;
+  color: #1f2933;
+  background: linear-gradient(to bottom, #f2f2f2 0%, #e2e2e2 100%);
+  background-image: linear-gradient(to bottom, #f2f2f2 0%, #e2e2e2 100%);
+  border: 1px solid #a9a9a9;
+  border-radius: 3px;
+  box-shadow: none;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled),
+.btn:hover {
+  background: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 100%);
+  background-image: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 100%);
+  border-color: #3c7fb1;
+}
+
+button:active:not(:disabled),
+.btn:active {
+  background: linear-gradient(to bottom, #c4e5f6 0%, #98d5f5 100%);
+  background-image: linear-gradient(to bottom, #c4e5f6 0%, #98d5f5 100%);
+  border-color: #2c628b;
+}
+
+button:disabled,
+.btn:disabled {
+  color: #9a9a9a;
+  background: linear-gradient(to bottom, #f4f4f4 0%, #ededed 100%);
+  background-image: linear-gradient(to bottom, #f4f4f4 0%, #ededed 100%);
+  border-color: #c9c9c9;
+  cursor: default;
+}
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(to bottom, #5c9fdd 0%, #2f6cb0 100%);
+  background-image: linear-gradient(to bottom, #5c9fdd 0%, #2f6cb0 100%);
+  border-color: #1f5a8f;
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #7cb4e8 0%, #3f82c6 100%);
+  background-image: linear-gradient(to bottom, #7cb4e8 0%, #3f82c6 100%);
+  border-color: #1b4f7e;
+}
+.btn-primary:active:not(:disabled) {
+  background: linear-gradient(to bottom, #3f82c6 0%, #2a5f9c 100%);
+  background-image: linear-gradient(to bottom, #3f82c6 0%, #2a5f9c 100%);
+  border-color: #17456f;
+}
+
+.btn-ghost {
+  background: transparent;
+  background-image: none;
+  border-color: transparent;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.06);
+  background-image: none;
+  border-color: transparent;
+}
