@@ -13,3 +13,4 @@ androidjs/assets/network.conf
 androidjs/views/*
 !androidjs/views/.gitkeep
 tools/admin-native/runstock-admin.app
+.vite
